@@ -40,17 +40,26 @@ def ACC(train_data, algorithms):
 def compute_score(test_data, algorithm):
     num_of_Named = 0  # 点名的人数
     num_of_hit = 0  # 命中的人数
+    i = 0
     for one_class_attend in test_data:
+        i = i + 1
         # 划分特征和标签
         test_data_feature, test_data_label = get_label_feature(one_class_attend)
         # 预测出的标签
         y_predict = algorithm.predict(test_data_feature)
         # 每次点名的人数等于没来的人数，即总人数-预测有来的人数
         num_of_Named += num_students - y_predict.sum()
+        # print("num of named = %d" % num_of_Named)
         # 获取没来人的学号
+        # argsort 表示返回下标
         named_ids = y_predict.argsort()[:num_students - y_predict.sum()]
         # 如果预测的人刚好没来，则为命中
         num_of_hit += (test_data_label[named_ids] == y_predict[named_ids]).sum()
+        # print("num of hit = %d" % num_of_hit)
+        # 输出
+        if i % 20 == 10:
+            print("named_ids of course_" + str(i // 20) + " :")
+            print(named_ids)
     # 计算准确率
     accuracy_rate = num_of_hit / num_of_Named
     return accuracy_rate
