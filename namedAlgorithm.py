@@ -29,7 +29,7 @@ def ACC(train_data, algorithms):
         algorithm.fit(X_train, y_train)
         y_predict = algorithm.predict(X_train)
         accuracy = accuracy_score(y_train, y_predict)   # 每个模型的准确率
-        # print(str(algorithm) + "\t" + "acc = %.4f" % accuracy)
+        print(str(algorithm) + "\t" + "acc = %.4f" % accuracy)
         if fit_score < accuracy:
             fit_score = accuracy
             best_algorithm = algorithm
